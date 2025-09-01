@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Route all API requests to simple_server.php
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^api/(.*)$ simple_server.php [QSA,L]
+
+# Route all other requests to the public directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [QSA,L]
+
+# Security headers
+Header always set X-Content-Type-Options nosniff
+Header always set X-Frame-Options DENY
+Header always set X-XSS-Protection "1; mode=block"
